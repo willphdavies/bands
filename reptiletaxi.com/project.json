@@ -1,0 +1,96 @@
+{
+  "name": "reptiletaxi.com",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "reptiletaxi.com/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/reptiletaxi.com",
+        "index": "reptiletaxi.com/src/index.html",
+        "baseHref": "/",
+        "main": "reptiletaxi.com/src/main.tsx",
+        "tsConfig": "reptiletaxi.com/tsconfig.app.json",
+        "assets": [
+          "reptiletaxi.com/src/favicon.ico",
+          "reptiletaxi.com/src/assets"
+        ],
+        "styles": ["reptiletaxi.com/src/styles.scss"],
+        "scripts": [],
+        "isolatedConfig": true,
+        "webpackConfig": "reptiletaxi.com/webpack.config.js"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "reptiletaxi.com/src/environments/environment.ts",
+              "with": "reptiletaxi.com/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/webpack:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "reptiletaxi.com:build",
+        "hmr": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "reptiletaxi.com:build:development"
+        },
+        "production": {
+          "buildTarget": "reptiletaxi.com:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["reptiletaxi.com/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "reptiletaxi.com:build"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "reptiletaxi.com/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

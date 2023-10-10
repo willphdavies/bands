@@ -1,0 +1,93 @@
+{
+  "name": "slack.wales",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "slack.wales/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/slack.wales",
+        "index": "slack.wales/src/index.html",
+        "baseHref": "/",
+        "main": "slack.wales/src/main.tsx",
+        "tsConfig": "slack.wales/tsconfig.app.json",
+        "assets": ["slack.wales/src/favicon.ico", "slack.wales/src/assets"],
+        "styles": ["slack.wales/src/styles.scss"],
+        "scripts": [],
+        "isolatedConfig": true,
+        "webpackConfig": "slack.wales/webpack.config.js"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "slack.wales/src/environments/environment.ts",
+              "with": "slack.wales/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/webpack:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "slack.wales:build",
+        "hmr": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "slack.wales:build:development"
+        },
+        "production": {
+          "buildTarget": "slack.wales:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["slack.wales/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "slack.wales:build"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "slack.wales/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

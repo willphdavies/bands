@@ -1,0 +1,33 @@
+{
+  "name": "reptiletaxi.com-e2e",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "reptiletaxi.com-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "reptiletaxi.com-e2e/cypress.config.ts",
+        "devServerTarget": "reptiletaxi.com:serve:development",
+        "testingType": "e2e"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "reptiletaxi.com:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "reptiletaxi.com:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["reptiletaxi.com-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["reptiletaxi.com"]
+}

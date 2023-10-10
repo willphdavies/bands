@@ -1,0 +1,33 @@
+{
+  "name": "allinonetake.com-e2e",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "allinonetake.com-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "allinonetake.com-e2e/cypress.config.ts",
+        "devServerTarget": "allinonetake.com:serve:development",
+        "testingType": "e2e"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "allinonetake.com:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "allinonetake.com:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["allinonetake.com-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["allinonetake.com"]
+}
